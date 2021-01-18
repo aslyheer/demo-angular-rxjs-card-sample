@@ -1,0 +1,23 @@
+<a class="btn btn-primary" routerLink="add-card">Create Transaction</a>
+<h3>List of Transaction</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Card Holder Name</th>
+      <th scope="col">Card Number</th>
+      <th scope="col">Expiry Date</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="allCards.length; else noDataFound">
+    <ng-container *ngFor="let card of allCards">
+      <tr>
+        <th scope="row">{{ card.nameOnCard }}</th>
+        <td>{{ card.cardNumber }}</td>
+        <td>{{ card.expirationMonth }}/{{ card.expirationYear }}</td>
+        <td>{{ card.amount }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <ng-template #noDataFound> {{ messages.noCardsFound }} </ng-template>
+</table>

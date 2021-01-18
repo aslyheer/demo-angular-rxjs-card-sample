@@ -1,0 +1,182 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+      <form
+        [formGroup]="paymentForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        id="payment-form"
+      >
+        <div class="form-row">
+          <div class="col-xs-12 form-group required">
+            <label class="control-label">Name on Card</label>
+            <input
+              class="form-control"
+              size="4"
+              type="text"
+              formControlName="nameOnCard"
+            />
+            <div
+              *ngIf="
+                !f.nameOnCard.valid &&
+                (f.nameOnCard.dirty || f.nameOnCard.touched)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.nameOnCard.errors" class="alert alert-danger">
+                Invalid Cardholder Name.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-xs-12 form-group card required">
+            <label class="control-label">Card Number</label>
+            <input
+              autocomplete="off"
+              class="form-control card-number"
+              size="20"
+              type="text"
+              formControlName="cardNumber"
+              placeholder="1234123412341234"
+              [ngClass]="{
+                'is-invalid':
+                  f.cardNumber.errors &&
+                  (f.cardNumber.dirty || f.cardNumber.touched)
+              }"
+            />
+            <div
+              *ngIf="
+                !f.cardNumber.valid &&
+                (f.cardNumber.dirty || f.cardNumber.touched)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.cardNumber.errors" class="alert alert-danger">
+                Invalid Card Number.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-xs-4 form-group cvc required">
+            <label class="control-label">CVC</label>
+            <input
+              autocomplete="off"
+              class="form-control card-cvc"
+              placeholder="ex. 311"
+              type="number"
+              formControlName="cardCVVNumber"
+              placeholder="123"
+              [ngClass]="{
+                'is-invalid':
+                  f.cardCVVNumber.errors &&
+                  (f.cardCVVNumber.dirty || f.cardCVVNumber.touched)
+              }"
+            />
+            <div
+              *ngIf="
+                !f.cardCVVNumber.valid &&
+                (f.cardCVVNumber.dirty || f.cardCVVNumber.touched)
+              "
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.cardCVVNumber.errors" class="alert alert-danger">
+                Invalid CVV / CVC Number.
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4 form-group expiration required">
+            <label class="control-label">Expiration</label>
+            <input
+              class="form-control card-expiry-month"
+              placeholder="MM"
+              type="number"
+              formControlName="expirationMonth"
+              placeholder="01"
+              [ngClass]="{
+                'is-invalid':
+                  !f.expirationMonth.valid &&
+                  (f.expirationMonth.dirty || f.expirationMonth.touched)
+              }"
+            />
+          </div>
+          <div class="col-xs-4 form-group expiration required">
+            <label class="control-label"> </label>
+            <input
+              class="form-control card-expiry-year"
+              placeholder="YYYY"
+              type="number"
+              formControlName="expirationYear"
+              placeholder="2021"
+              [ngClass]="{
+                'is-invalid':
+                  f.expirationYear.errors &&
+                  (f.expirationYear.dirty || f.expirationYear.touched)
+              }"
+            />
+          </div>
+          <div
+            *ngIf="
+              (!f.expirationMonth.valid &&
+                (f.expirationMonth.dirty || f.expirationMonth.touched)) ||
+              (!f.expirationYear.valid &&
+                (f.expirationYear.dirty || f.expirationYear.touched))
+            "
+            class="invalid-feedback"
+          >
+            <div
+              *ngIf="f.expirationMonth.errors || f.expirationYear.errors"
+              class="alert alert-danger"
+            >
+              Invalid Date of Expiration.
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-xs-12 form-group card required">
+            <label class="control-label">Amount</label>
+            <input
+              autocomplete="off"
+              class="form-control amount"
+              size="20"
+              type="number"
+              formControlName="amount"
+              placeholder="1234123412341234"
+              [ngClass]="{
+                'is-invalid':
+                  f.amount.errors && (f.amount.dirty || f.amount.touched)
+              }"
+            />
+            <div
+              *ngIf="!f.amount.valid && (f.amount.dirty || f.amount.touched)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.amount.errors" class="alert alert-danger">
+                Enter Amount greater than 0.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12 form-group">
+            <button
+              class="form-control btn btn-primary submit-button"
+              type="submit"
+            >
+              Pay »
+            </button>
+          </div>
+        </div>
+        <div class="form-row" *ngIf="displayMessage">
+          <div class="col-md-12 error form-group">
+            <div class="alert-success alert">
+              {{ displayMessage }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
